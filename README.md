@@ -32,13 +32,12 @@ This project implements equilibrium state computation and LQR control for a whee
    ```bash
    cd dependencies/PinnZoo
    git checkout pineapple
-   cd ../..
    ```
 
 4. **Install PinnZoo**
-    Follow the README inside Pinnzoo folder
-
-    For Mac users, comment rigidbody project from `CMakeLists.txt` before installing PinnZoo
+   
+    - Follow the README inside Pinnzoo folder
+    - For Mac users, comment rigidbody project from `CMakeLists.txt` before installing PinnZoo
 
 ## Project Structure
 
