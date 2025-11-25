@@ -1,0 +1,3 @@
+[submodule "dependencies/PinnZoo"]
+	path = dependencies/PinnZoo
+	url = https://github.com/RoboticExplorationLab/PinnZoo.git
