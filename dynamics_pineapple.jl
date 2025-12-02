@@ -119,7 +119,6 @@ end
 Only supported for models where model.kinematics_ori is :Quaternion
 """
 function pinned_continuous_dynamics(model::Pineapple, x, u;  K_pd = zeros(model.nu, model.nx))
-    @show model.kinematics_ori
     @assert model.kinematics_ori == :Quaternion "model needs to have kinematics orientation with quaternions, Pineapple(kinematics_ori = :Quaterion)"
     # Get dynamics matrices
     M = M_func(model, x)
@@ -168,6 +167,17 @@ function pinned_continuous_dynamics(model::Pineapple, x, u;  K_pd = zeros(model.
     v̇ = res[1:model.nv]
     λ = res[model.nv + 1:end]
     return [q̇; v̇], λ
+end
+
+function pinned_rk4(model::Pineapple, x_k, u_k, h; K_pd = zeros(model.nu, model.nx))
+    k1, λ1 = pinned_continuous_dynamics(model, x_k, u_k, K_pd = K_pd)
+    k2, λ2 = pinned_continuous_dynamics(model, x_k + h*k1/2, u_k, K_pd = K_pd)
+    k3, λ3 = pinned_continuous_dynamics(model, x_k + h*k2/2, u_k, K_pd = K_pd)
+    k4, λ4 = pinned_continuous_dynamics(model, x_k + h*k3, u_k, K_pd = K_pd)
+    x_next = x_k + h*(k1 + 2*k2 + 2*k3 + k4)/6;
+    x_next[4:7] = normalize(x_next[4:7])
+    λ = (λ1 + 2*λ2 + 2*λ3 + λ4)/6;
+    return x_next, λ
 end
 
 function linesearch(z::Vector, Δz::Vector, merit_fx::Function;

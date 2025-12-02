@@ -1,8 +1,10 @@
-using Pkg
-Pkg.develop(path="dependencies/PinnZoo")
-
-Pkg.add("MeshCatMechanisms")
-Pkg.add("RigidBodyDynamics")
+# using Pkg
+# Pkg.develop(path="dependencies/PinnZoo")
+# Pkg.add("MeshCatMechanisms")
+# Pkg.add("RigidBodyDynamics")
+# Pkg.add("FiniteDiff")
+# Pkg.add(Pkg.PackageSpec(name = "ForwardDiff", version = v"0.10.39"))
+# Pkg.add("MuJoCo")
 
 using PinnZoo
 using MeshCat
@@ -10,8 +12,10 @@ using MeshCatMechanisms
 import RigidBodyDynamics: MechanismState, joints, parse_urdf, QuaternionFloating
 import ForwardDiff
 using LinearAlgebra
-
-Pkg.add(Pkg.PackageSpec(name = "ForwardDiff", version = v"0.10.39"))
+using FiniteDiff
+using ControlSystems: lqr, Discrete
+import MuJoCo
+import MuJoCo: install_visualiser, init_visualiser, load_model, visualise!, mj_step, mj_forward, mj_id2name
 
 include("dynamics_pineapple.jl")
 
